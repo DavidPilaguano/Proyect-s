@@ -1,22 +1,32 @@
-#include <iostream>
 #include <GLFW/glfw3.h>
 
-GLFWwinow* StartGLWF();
+GLFWwindow* StartGLFW();
 
-int main(){
-	
-	GLFWwindow* window= StartGLWF();
-	while(!glfwWindowShouldClose(window))
-	
-	glfwSwapBuffers(window);
-	glfwPollEvents();
+int main() {
+    GLFWwindow* window = StartGLFW();
+
+    if (!window) return -1;
+
+    while (!glfwWindowShouldClose(window)) {
+        glClear(GL_COLOR_BUFFER_BIT);
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    return 0;
 }
 
-GLFWwinow* StartGLWF(){
-	if (!glfwInit()){
-		std::cerr<<"Falla en la glfw"<<std::endl;
-		return nullptr;
-	}
-	GLFWwindow* window=glfwCreateWindow(800,600 "gravity", NULL, NULL);
-	return window;
+GLFWwindow* StartGLFW() {
+    if (!glfwInit()) return nullptr;
+
+    GLFWwindow* window = glfwCreateWindow(640, 480, "Ventana GLFW", nullptr, nullptr);
+    if (!window) {
+        glfwTerminate();
+        return nullptr;
+    }
+
+    glfwMakeContextCurrent(window);
+    return window;
 }
